@@ -83,13 +83,13 @@ function crearTemaNuevo (req, res) {
 app.post('/temas', crearTemaNuevo);
 
 
-//RUTA PARA MOSTRAR FORMULARIO Y ELIMINAR UN TEMA
+//5 RUTA PARA MOSTRAR FORMULARIO Y ELIMINAR UN TEMA
 function mostrarRenderEliminar(req, res) {
     res.render('eliminar-tema', {temas: temas});    //mando a los temas
 }
 app.get('/temas/eliminar', mostrarRenderEliminar)
 
-//RUTA PARA ELIMINAR TEMAS
+//6 RUTA PARA ELIMINAR TEMAS(POSTMAN)
 function eliminarTema(req, res) {
     const idTema = parseInt(req.params.id);   //Obtiene el ID de la URL
 
@@ -106,6 +106,24 @@ function eliminarTema(req, res) {
 }
 
 app.delete('/tema/:id', eliminarTema);
+
+
+//7 RUTA PARA ELIMINAR (DESDE LA WEB)
+function eliminarTemaWeb(req, res) {
+    const idTema = parseInt(req.params.id);
+
+    //Busco la posicion en el Array
+    const indice = temas.findIndex(t => t.id === idTema);
+
+    if (indice !== -1) {
+        temas.splice(indice, 1)[0];
+        res.redirect('/temas')
+    }
+    else {
+        res.send({error: "tema no encontrado"})
+    }
+    }
+app.post('/temas/:id/eliminar', eliminarTemaWeb);
 
 
 //RUTA PARA ACTUALIZAR UN TEMA (SOLO TITULO DISPONIBLE)
