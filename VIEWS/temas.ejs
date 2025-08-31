@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEMAS - Learn It, Love It</title>
+</head>
+<body>
+    <h1>Todos los Temas</h1>
+
+    <p>Total de temas: <%= temas.length %></p>
+    <ul> 
+        <% for (let i = 0; i < temas.length; i++) { %>
+            <li>
+                <strong><%= temas[i].titulo %></strong>
+                - Votos: <%= temas[i].votos %>
+            </li>
+        <% } %>
+    </ul>
+    <div><a href="/">Volver al inicio</a></div>
+
+    <div><a href="/temas/nuevo">Crear Nuevo Tema</a></div>    
+</body>
+</html>

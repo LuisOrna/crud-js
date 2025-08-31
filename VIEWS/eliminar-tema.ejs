@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliminar Temas</title>
+</head>
+    <h1>Temas Activos que Puede Eliminar</h1>
+<body>
+    <ul>
+        <% for (let i = 0; i < temas.length; i++) { %>
+            <li>
+                <strong><%= temas[i].titulo %></strong>
+                <form action="/temas/<%= temas[i].id %>/eliminar" method="POST" style="display: inline;">
+                    <button type="submit">Eliminar</button>
+                </form>
+            </li>
+        <% } %>
+    </ul>
+</body>
+</html>

@@ -2,7 +2,7 @@ console.log('Hola Mundo')
 
 let cajaDeLuis = 'Orna'
 
-console.log(caja_de_luis)
+console.log(cajaDeLuis)
 
 // string
 let nombre = 'Tere'
@@ -25,7 +25,16 @@ let simboloUnico = Symbol('solo')
 // bigint
 numeroGrande = 2n
 
+//Arraray de temas con mas datos
+const temas = [
+    {id: 1, titulo: "Python Basico", votos: 0},
+    {id: 2, titulo: "JavaScript", votos: 0},
+    {id: 3, titulo: "Introduccion a la Ingenieria de Software", votos: 0}
+];
 
+for (let i = 0; i < temas.length; i++) {
+    console.log(temas[i].titulo);
+    }
 
 
 

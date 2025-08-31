@@ -1,5 +1,11 @@
+//Dependencias
 const express = require('express')  //importo express
 const app = express();          // creo la app
+
+
+// 👇 Estos middlewares permiten leer el body de formularios y JSON
+app.use(express.urlencoded({ extended: true })); 
+app.use(express.json());
 
 
 //CONFIGURACION EJS (NUEVO)
@@ -29,14 +35,32 @@ function validarTitulo(titulo) {
     return null; //sin errores
 }
 
-//RUTA BASICA FORMA LARGA
+//1 RUTA BASICA FORMA LARGA
 function rutaBasica(req, res) {
-    res.send("Hola, Mi servidor funciona ");
+    //res.send("Hola, Mi servidor funciona "); Esto era cuando aun no tenia INDEX
+    res.render('index');
 }
 app.get('/', rutaBasica);
 
 
-//RUTA PARA CREAR UN NUEVO TEMA
+//2 RUTA PARA LISTAR TODOS LOS TEMAS (POR AHORA)
+function verTemas (req, res) {
+    res.render('temas', {temas: temas});
+};
+/*app.get('/temas', (req, res) => {
+    res.send(temas)
+});*/
+app.get('/temas', verTemas)
+
+
+//3 RUTA PARA MOSTRAR FORMULARIO DE CREAR TEMA
+function mostrarFormularioNuevoTema(req, res) {
+    res.render('nuevo-tema');
+}
+app.get('/temas/nuevo', mostrarFormularioNuevoTema)
+
+
+//4 RUTA PARA CREAR UN NUEVO TEMA
 function crearTemaNuevo (req, res) {
     const error = validarTitulo(req.body.titulo);
 
@@ -53,10 +77,17 @@ function crearTemaNuevo (req, res) {
         votos: 0  //Siempre inicia en 0
     };
     temas.push(nuevoTema);  //Agregar en el array
-    res.status(201).send(nuevoTema);  // 201 = "Creado Exitosamente"
+    //res.status(201).send(nuevoTema);  // 201 = "Creado Exitosamente"
+    res.status(201).redirect('/temas'); //Para redireccionar a la web de temas
 };
 app.post('/temas', crearTemaNuevo);
 
+
+//RUTA PARA MOSTRAR FORMULARIO Y ELIMINAR UN TEMA
+function mostrarRenderEliminar(req, res) {
+    res.render('eliminar-tema', {temas: temas});    //mando a los temas
+}
+app.get('/temas/eliminar', mostrarRenderEliminar)
 
 //RUTA PARA ELIMINAR TEMAS
 function eliminarTema(req, res) {
@@ -75,12 +106,6 @@ function eliminarTema(req, res) {
 }
 
 app.delete('/tema/:id', eliminarTema);
-
-
-//Lista de temas Manual (POR AHORA)
-app.get('/temas', (req, res) => {
-    res.send(temas)
-});
 
 
 //RUTA PARA ACTUALIZAR UN TEMA (SOLO TITULO DISPONIBLE)
