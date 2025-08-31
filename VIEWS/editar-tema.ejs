@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Temas</title>
+</head>
+    <h1>Formulario para editar Temas</h1>
+<body>
+    <p>Total de temas: <%= temas.length %> </p>
+    <ul>
+        Total de temas: <%= temas.length %>
+        <% for (let i = 0; i < temas.length; i++) { %>
+            <li>
+            <strong><%= temas[i].titulo %></strong>
+            <form action="/temas/<%= temas[i].id%>/editar" method="post">
+                <label for="titulo">Nuevo Titulo: </label>
+                <input type="text" id="titulo" name="titulo" value="<%= temas[i].titulo; %>" required>
+                <button type="submit">Actualizar Tema</button>
+            </form>
+        <% } %>
+            
+            </li>
+    </ul>
+    <a href="/temas">CANCELAR Y VOLVER A TEMAS</a>
+</body>
+</html>

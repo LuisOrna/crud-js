@@ -35,7 +35,7 @@ function validarTitulo(titulo) {
     return null; //sin errores
 }
 
-//1 RUTA BASICA FORMA LARGA
+//1 RUTA BASICA FORMA --------------------------------------------------------
 function rutaBasica(req, res) {
     //res.send("Hola, Mi servidor funciona "); Esto era cuando aun no tenia INDEX
     res.render('index');
@@ -43,7 +43,7 @@ function rutaBasica(req, res) {
 app.get('/', rutaBasica);
 
 
-//2 RUTA PARA LISTAR TODOS LOS TEMAS (POR AHORA)
+//2 RUTA PARA LISTAR TODOS LOS TEMAS (POR AHORA)------------------------------------------
 function verTemas (req, res) {
     res.render('temas', {temas: temas});
 };
@@ -53,14 +53,14 @@ function verTemas (req, res) {
 app.get('/temas', verTemas)
 
 
-//3 RUTA PARA MOSTRAR FORMULARIO DE CREAR TEMA
+//3 RUTA PARA MOSTRAR FORMULARIO DE CREAR TEMA-------------------------------------------------
 function mostrarFormularioNuevoTema(req, res) {
     res.render('nuevo-tema');
 }
 app.get('/temas/nuevo', mostrarFormularioNuevoTema)
 
 
-//4 RUTA PARA CREAR UN NUEVO TEMA
+//4 RUTA PARA CREAR UN NUEVO TEMA--------------------------------------------------------------
 function crearTemaNuevo (req, res) {
     const error = validarTitulo(req.body.titulo);
 
@@ -83,13 +83,14 @@ function crearTemaNuevo (req, res) {
 app.post('/temas', crearTemaNuevo);
 
 
-//5 RUTA PARA MOSTRAR FORMULARIO Y ELIMINAR UN TEMA
+//5 RUTA PARA MOSTRAR FORMULARIO Y ELIMINAR UN TEMA-----------------------------------------------
 function mostrarRenderEliminar(req, res) {
     res.render('eliminar-tema', {temas: temas});    //mando a los temas
 }
 app.get('/temas/eliminar', mostrarRenderEliminar)
 
-//6 RUTA PARA ELIMINAR TEMAS(POSTMAN)
+
+//6 RUTA PARA ELIMINAR TEMAS(POSTMAN)--------------------------------------------------------------
 function eliminarTema(req, res) {
     const idTema = parseInt(req.params.id);   //Obtiene el ID de la URL
 
@@ -108,7 +109,7 @@ function eliminarTema(req, res) {
 app.delete('/tema/:id', eliminarTema);
 
 
-//7 RUTA PARA ELIMINAR (DESDE LA WEB)
+//7 RUTA PARA ELIMINAR (DESDE LA WEB)-----------------------------------------------------
 function eliminarTemaWeb(req, res) {
     const idTema = parseInt(req.params.id);
 
@@ -126,7 +127,7 @@ function eliminarTemaWeb(req, res) {
 app.post('/temas/:id/eliminar', eliminarTemaWeb);
 
 
-//RUTA PARA ACTUALIZAR UN TEMA (SOLO TITULO DISPONIBLE)
+//8 RUTA PARA ACTUALIZAR UN TEMA POSTMAN (SOLO TITULO DISPONIBLE)--------------------------
 function actualizarTema(req, res) {
     const idTema = parseInt(req.params.id);   //Obtiene el numoero de id que se le pase en la url
 
@@ -149,6 +150,28 @@ function actualizarTema(req, res) {
     }
 }
 app.put('/temas/:id', actualizarTema);
+
+
+//9WEB RUTA PARA VISUALIZAR FORMULARIO DE EDICION
+function mostrarEdicion (req, res) {
+    res.render('editar-tema', {temas: temas})
+}
+app.get('/temas/editar', mostrarEdicion)
+
+
+//10WEB RUTA PARA EDITAR TEMA - EJECUTAR FORMULARIO DE EDICION
+function actualizarTemaWeb (req, res) {
+    const idTema = parseInt(req.params.id); //Recibo el ID tema
+    const tema = temas.find(t => t.id === idTema); //Busco el tema en el ARRAY
+    if (tema) {
+        tema.titulo = req.body.titulo;
+        res.redirect('/temas');
+    }
+    else {
+        res.redirect('/temas');
+    }
+}
+app.post('/temas/:id/editar', actualizarTemaWeb)
 
 
 //RUTA PARA VOTAR
